@@ -1,12 +1,11 @@
 import App from "../apps/app.model";
 import Suggestion from "../suggestion/suggestion.model";
 import Hire from "../hire/hire.model";
-  import Activity
-from "../activity/activity.model";
+import Activity from "../activity/activity.model";
 
 export const getStats =
   async () => {
-    const apps =
+    const totalApps =
       await App.countDocuments();
 
     const featuredApps =
@@ -17,22 +16,24 @@ export const getStats =
     const suggestions =
       await Suggestion.countDocuments();
 
-    const hireRequests =
+    const hires =
       await Hire.countDocuments();
 
+    const activities =
+      await Activity.countDocuments();
+
     return {
-      apps,
+      totalApps,
       featuredApps,
       suggestions,
-      hireRequests,
+      hires,
+      activities,
     };
   };
 
-
-
 export const recentActivity =
   async () => {
-    return Activity.find()
+    return await Activity.find()
       .sort({
         createdAt: -1,
       })

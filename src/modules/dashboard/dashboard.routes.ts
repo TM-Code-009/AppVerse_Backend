@@ -1,21 +1,15 @@
 import { Router } from "express";
-
-import * as DashboardController
-from "./dashboard.controller";
-
-import { protect }
-from "../../middleware/authmiddleware";
+import * as DashboardController from "./dashboard.controller";
 
 const router = Router();
 
 router.get(
   "/stats",
-  protect,
   DashboardController.stats
 );
+
 router.get(
   "/recent-activity",
-  protect,
   DashboardController.activity
 );
 

@@ -9,6 +9,8 @@ import suggestionRoutes
 from "./modules/suggestion/suggstion.routes";
 import hireRoutes
 from "./modules/hire/hire.routes";
+import requestRoutes
+from "./modules/request/request.routes";
 
 const app = express();
 
@@ -34,6 +36,11 @@ app.use(
 app.use(
   "/api/dashboard",
   dashboardRoutes
+);
+
+app.use(
+  "/api/requests",
+  requestRoutes
 );
 
 app.use("/api", routes);

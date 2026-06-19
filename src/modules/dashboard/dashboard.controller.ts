@@ -1,38 +1,32 @@
-import {
-  Request,
-  Response,
-} from "express";
+import { Request, Response } from "express";
+import * as DashboardService from "./dashboard.service";
 
-import * as DashboardService
-from "./dashboard.service";
+export const stats = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const data =
+      await DashboardService.getStats();
 
-export const stats =
-  async (
-    req: Request,
-    res: Response
-  ) => {
-    try {
-      const data =
-        await DashboardService.getStats();
+    res.json({
+      success: true,
+      data,
+    });
+  } catch (error) {
+    console.log(error);
 
-      res.json({
-        success: true,
-        data,
-      });
-    } catch (error) {
-      console.log(error);
+    res.status(500).json({
+      success: false,
+    });
+  }
+};
 
-      res.status(500).json({
-        success: false,
-      });
-    }
-  };
-
-  export const activity =
-  async (
-    req: Request,
-    res: Response
-  ) => {
+export const activity = async (
+  req: Request,
+  res: Response
+) => {
+  try {
     const data =
       await DashboardService.recentActivity();
 
@@ -40,4 +34,11 @@ export const stats =
       success: true,
       data,
     });
-  };
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+    });
+  }
+};
