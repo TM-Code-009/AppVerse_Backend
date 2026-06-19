@@ -2,6 +2,7 @@ import App from "../apps/app.model";
 import Suggestion from "../suggestion/suggestion.model";
 import Hire from "../hire/hire.model";
 import Activity from "../activity/activity.model";
+import Request from "../request/request.model";
 
 export const getStats =
   async () => {
@@ -22,12 +23,16 @@ export const getStats =
     const activities =
       await Activity.countDocuments();
 
+    const requests =
+      await Request.countDocuments();
+
     return {
       totalApps,
       featuredApps,
       suggestions,
       hires,
       activities,
+      requests,
     };
   };
 
