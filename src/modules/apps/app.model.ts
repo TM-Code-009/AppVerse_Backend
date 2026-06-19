@@ -10,6 +10,7 @@ export interface IApp
   category: string;
   url: string;
   featured: boolean;
+  price:number
 }
 
 const appSchema =
@@ -44,6 +45,10 @@ const appSchema =
         type: Boolean,
         default: false,
       },
+      price: {
+  type: Number,
+  default: 0,
+}
     },
     {
       timestamps: true,
