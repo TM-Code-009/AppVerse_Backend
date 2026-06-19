@@ -186,10 +186,47 @@ export const update = async (
   res: Response
 ) => {
   try {
+    let updateData: any = {
+      ...req.body,
+    };
+
+    if (req.file) {
+      const uploaded =
+        await new Promise<any>(
+          (
+            resolve,
+            reject
+          ) => {
+            cloudinary.uploader
+              .upload_stream(
+                {
+                  folder:
+                    "appverse",
+                },
+                (
+                  error,
+                  result
+                ) => {
+                  if (error)
+                    reject(error);
+
+                  resolve(result);
+                }
+              )
+              .end(
+                req.file?.buffer
+              );
+          }
+        );
+
+      updateData.image =
+        uploaded.secure_url;
+    }
+
     const app =
       await AppService.updateApp(
         String(req.params.id),
-        req.body
+        updateData
       );
 
     if (!app) {
@@ -199,6 +236,11 @@ export const update = async (
           "App not found",
       });
     }
+
+    await ActivityService.createActivity(
+      "APP_UPDATED",
+      `App updated: ${app.title}`
+    );
 
     res.json({
       success: true,

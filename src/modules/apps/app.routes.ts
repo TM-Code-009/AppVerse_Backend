@@ -27,6 +27,7 @@ router.get(
 router.patch(
   "/:id",
   protect,
+  upload.single("image"),
   AppController.update
 );
 

@@ -9,8 +9,10 @@ export interface IApp
   image: string;
   category: string;
   url: string;
+  demoUrl: string;
+  status: string;
   featured: boolean;
-  price:number
+  price: number;
 }
 
 const appSchema =
@@ -48,7 +50,21 @@ const appSchema =
       price: {
   type: Number,
   default: 0,
-}
+},
+demoUrl: {
+  type: String,
+  default: "",
+},
+
+status: {
+  type: String,
+  enum: [
+    "Available",
+    "Coming Soon",
+    "Sold",
+  ],
+  default: "Available",
+},
     },
     {
       timestamps: true,
