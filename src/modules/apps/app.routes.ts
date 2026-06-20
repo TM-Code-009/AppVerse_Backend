@@ -45,4 +45,9 @@ router.post(
   AppController.create
 );
 
+router.get(
+  "/featured",
+  AppController.featured
+);
+
 export default router;

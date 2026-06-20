@@ -6,6 +6,7 @@ import {
 import * as RequestService from "./request.service";
 
 import * as ActivityService from "../activity/activity.service";
+import { sendEmail } from "../../utils/sendEmail";
 
 export const create =
   async (
@@ -17,6 +18,23 @@ export const create =
         await RequestService.createRequest(
           req.body
         );
+
+        await sendEmail(
+  "New App Request",
+  `
+  <h2>New App Request</h2>
+
+  <p><strong>App:</strong> ${request.appTitle}</p>
+
+  <p><strong>Name:</strong> ${request.name}</p>
+
+  <p><strong>Email:</strong> ${request.email}</p>
+
+  <p><strong>Phone:</strong> ${request.phone}</p>
+
+  <p><strong>Message:</strong> ${request.message}</p>
+  `
+);
 
       await ActivityService.createActivity(
         "NEW_REQUEST",

@@ -4,45 +4,27 @@ export const sendEmail = async (
   subject: string,
   html: string
 ) => {
-  try {
-    console.log("📧 Attempting to send email...");
+  const transporter =
+    nodemailer.createTransport({
+      service: "gmail",
 
-    console.log({
-      EMAIL_USER: process.env.EMAIL_USER,
-      ADMIN_EMAIL: process.env.ADMIN_EMAIL,
-      EMAIL_PASS_EXISTS: !!process.env.EMAIL_PASS,
+      auth: {
+        user:
+          process.env.EMAIL_USER,
+        pass:
+          process.env.EMAIL_PASS,
+      },
     });
 
-    const transporter =
-      nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+  await transporter.sendMail({
+    from:
+      process.env.EMAIL_USER,
 
-    const info =
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: process.env.ADMIN_EMAIL,
-        subject,
-        html,
-      });
+    to:
+      process.env.ADMIN_EMAIL,
 
-    console.log(
-      "✅ Email sent:",
-      info.messageId
-    );
+    subject,
 
-    return info;
-  } catch (error) {
-    console.error(
-      "❌ Email sending failed:"
-    );
-
-    console.error(error);
-
-    throw error;
-  }
+    html,
+  });
 };
