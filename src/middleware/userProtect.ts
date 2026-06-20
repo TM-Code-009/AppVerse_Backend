@@ -6,15 +6,14 @@ import {
 
 import jwt from "jsonwebtoken";
 
-import User
-from "../modules/users/user.model";
+import User from "../modules/users/user.model";
 
 export interface AuthRequest
   extends Request {
   user?: any;
 }
 
-export const protect =
+export const userProtect =
   async (
     req: AuthRequest,
     res: Response,
@@ -33,6 +32,7 @@ export const protect =
         return res
           .status(401)
           .json({
+            success: false,
             message:
               "Unauthorized",
           });
@@ -60,6 +60,7 @@ export const protect =
         return res
           .status(401)
           .json({
+            success: false,
             message:
               "Unauthorized",
           });
@@ -68,10 +69,13 @@ export const protect =
       req.user = user;
 
       next();
-    } catch {
+    } catch (error) {
+      console.log(error);
+
       return res
         .status(401)
         .json({
+          success: false,
           message:
             "Unauthorized",
         });

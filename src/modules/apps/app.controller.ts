@@ -8,10 +8,13 @@ import cloudinary
   from "../../config/cloudinary";
   import * as ActivityService
 from "../activity/activity.service";
+import {
+  AuthRequest,
+} from "../../middleware/userProtect";
 
 
 export const create = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ) => {
   try {
@@ -55,13 +58,14 @@ export const create = async (
     }
 
     const app =
-      await AppService.createApp(
-        {
-          ...req.body,
-          image:
-            imageUrl,
-        }
-      );
+  await AppService.createApp({
+    ...req.body,
+
+    image: imageUrl,
+
+    developer:
+      req.user?._id,
+  });
       await ActivityService.createActivity(
   "NEW_APP",
   `New app added: ${app.title}`

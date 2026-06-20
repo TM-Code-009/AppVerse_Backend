@@ -1,5 +1,6 @@
 import mongoose, {
   Document,
+  Types,
 } from "mongoose";
 
 export interface IApp
@@ -13,6 +14,7 @@ export interface IApp
   status: string;
   featured: boolean;
   price: number;
+  developer: Types.ObjectId;
 }
 
 const appSchema =
@@ -64,6 +66,14 @@ status: {
     "Sold",
   ],
   default: "Available",
+},
+developer: {
+  type:
+    mongoose.Schema.Types.ObjectId,
+
+  ref: "User",
+
+  required: true,
 },
     },
     {

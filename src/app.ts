@@ -11,12 +11,21 @@ import hireRoutes
 from "./modules/hire/hire.routes";
 import requestRoutes
 from "./modules/request/request.routes";
+import userRoutes
+from "./modules/users/user.routes";
+
 
 const app = express();
 
 app.use(cors());
 
 app.use(express.json());
+
+
+app.use(
+  "/api/users",
+  userRoutes
+);
 
 app.use(
   "/api/hire",
