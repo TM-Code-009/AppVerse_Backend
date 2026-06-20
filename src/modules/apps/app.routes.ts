@@ -9,6 +9,11 @@ from "../../middleware/upload";
 const router = Router();
 
 router.get(
+  "/featured",
+  AppController.featured
+);
+
+router.get(
   "/",
   AppController.getAll
 );
@@ -18,16 +23,16 @@ router.get(
   AppController.getOne
 );
 
-// router.post(
-//   "/",
-//   protect,
-//   AppController.create
-// );
+router.post(
+  "/",
+  protect,
+  upload.single("image"),
+  AppController.create
+);
 
 router.patch(
   "/:id",
   protect,
-  upload.single("image"),
   AppController.update
 );
 
@@ -37,17 +42,16 @@ router.delete(
   AppController.remove
 );
 
-
-router.post(
-  "/",
-  protect,
-  upload.single("image"),
-  AppController.create
-);
-
 router.get(
   "/featured",
   AppController.featured
 );
+
+router.get(
+  "/:id",
+  AppController.getOne
+);
+
+
 
 export default router;
