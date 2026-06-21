@@ -4,9 +4,11 @@ import {
 } from "express";
 
 import * as UserService from "./user.service";
-
+import cloudinary
+  from "../../config/cloudinary";
 import { AuthRequest }
 from "../../middleware/userProtect";
+
 
 export const getProfile =
   async (
@@ -38,10 +40,58 @@ export const updateProfile =
     res: Response
   ) => {
     try {
+      let avatar = "";
+
+      if (req.file) {
+        const uploaded =
+          await new Promise<any>(
+            (
+              resolve,
+              reject
+            ) => {
+              cloudinary.uploader
+                .upload_stream(
+                  {
+                    folder:
+                      "appverse/users",
+                  },
+                  (
+                    error,
+                    result
+                  ) => {
+                    if (error)
+                      reject(
+                        error
+                      );
+
+                    resolve(
+                      result
+                    );
+                  }
+                )
+                .end(
+                  req.file?.buffer
+                );
+            }
+          );
+
+        avatar =
+          uploaded.secure_url;
+      }
+
+      const payload = {
+        ...req.body,
+      };
+
+      if (avatar) {
+        payload.avatar =
+          avatar;
+      }
+
       const user =
         await UserService.updateProfile(
-          req.user!._id,
-          req.body
+          req.user!._id.toString(),
+          payload
         );
 
       res.json({
@@ -172,3 +222,5 @@ export const getDeveloperApps =
       });
     }
   };
+
+ 

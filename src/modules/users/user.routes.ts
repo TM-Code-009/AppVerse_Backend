@@ -5,6 +5,8 @@ from "./user.controller";
 
 import { userProtect }
 from "../../middleware/userProtect";
+import { upload }
+from "../../middleware/upload";
 
 const router = Router();
 
@@ -17,6 +19,9 @@ router.get(
 router.patch(
   "/profile",
   userProtect,
+  upload.single(
+    "avatar"
+  ),
   UserController.updateProfile
 );
 

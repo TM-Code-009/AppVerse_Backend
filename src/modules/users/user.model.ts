@@ -14,6 +14,12 @@ export interface IUser
 
   skills:string;
 
+  website: string;
+
+github: string;
+
+linkedin: string;
+
   bio: string;
 
   role:
@@ -56,6 +62,21 @@ const userSchema =
     type: String,
   },
 ],
+
+website: {
+  type: String,
+  default: "",
+},
+
+github: {
+  type: String,
+  default: "",
+},
+
+linkedin: {
+  type: String,
+  default: "",
+},
 
       bio: {
         type: String,
